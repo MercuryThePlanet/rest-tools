@@ -5,5 +5,7 @@ import (
 )
 
 var (
-	NoReqBodyErr = errors.New("No request body.")
+	// http errors
+	MethodNotAllowedErr = errors.New("Method not allowed.")
+	NoReqBodyErr        = errors.New("No request body.")
 )
