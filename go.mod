@@ -1,1 +1,1 @@
-module github.com/award28/restTools
+module github.com/MercuryThePlanet/rest-tools
