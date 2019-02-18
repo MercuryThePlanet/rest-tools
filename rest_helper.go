@@ -1,4 +1,3 @@
-// Package tools implements helper methods to make development of rest APIs easy.
 package tools
 
 import (
