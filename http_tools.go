@@ -6,14 +6,6 @@ import (
 	"net/http"
 )
 
-// HandleGroup returns a group handler with the intial `path` prefixed to each
-// following subpath.
-func HandleGroup(path string) func(string, http.Handler) {
-	return func(subpath string, handler http.Handler) {
-		http.Handle(path+subpath, handler)
-	}
-}
-
 // Unmarshal turns an http request body into the passed type.
 func Unmarshal(v interface{}, r *http.Request) error {
 	if r.Body == nil {

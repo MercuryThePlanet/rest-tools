@@ -1,12 +1,8 @@
-// Package tools implements helper methods to make development of rest APIs easy.
 package tools
 
 import (
 	"net/http"
 )
-
-// ErrorHandle is a modified http.Handle which returns an error.
-type ErrorHandle = func(w http.ResponseWriter, r *http.Request) error
 
 // MethodMap maps an http.Method string to an ErrorHandle.
 type MethodMap = map[string]ErrorHandle
@@ -41,4 +37,8 @@ func (rh *RestHelper) Handler(w http.ResponseWriter, r *http.Request) error {
 		return MethodNotAllowedErr
 	}
 	return handle(w, r)
+}
+
+func (rh *RestHelper) JsonErrHandler() http.Handler {
+	return ErrorHandler{rh.Handler}
 }
