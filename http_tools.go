@@ -4,6 +4,8 @@ package tools
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 // Unmarshal turns an http request body into the passed type.
@@ -25,11 +27,11 @@ func ServeJsonRes(w http.ResponseWriter, status int, res interface{}) error {
 
 // PathParamToInt takes the urlPath and section section to trim, then converts
 // the remainder into an int
-func PathParamToInt(urlPath, trim) (res int, err error) {
+func PathParamToInt(urlPath, trim string) (res int, err error) {
 	v := strings.TrimPrefix(urlPath, trim)
-	res, err := strconv.Atoi(v)
+	res, err = strconv.Atoi(v)
 	if err != nil {
-		return 0, errors.New("URL Path Parameter must be an integer.")
+		return 0, ParamRequiredErr("integer")
 	}
 	return
 }
@@ -38,11 +40,11 @@ func PathParamToInt(urlPath, trim) (res int, err error) {
 func QueryParamToFloat64(k string, r *http.Request) (res float64, err error) {
 	v, ok := r.URL.Query()[k]
 	if !ok {
-		return 0, errors.New("Query Parameter `" + k + "` is required.")
+		return 0, ParamRequiredErr(k)
 	}
-	res, err := strconv.ParseFloat(v[0], 64)
+	res, err = strconv.ParseFloat(v[0], 64)
 	if err != nil {
-		return 0, errors.New("Query Parameter `" + k + "` must be a float64.")
+		return 0, ParamWrongTypeErr("float64")
 	}
 	return
 }
