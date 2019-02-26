@@ -2,6 +2,8 @@
 package tools
 
 import (
+	"crypto/rand"
+	"encoding/base64"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -47,4 +49,24 @@ func QueryParamToFloat64(k string, r *http.Request) (res float64, err error) {
 		return 0, ParamWrongTypeErr("float64")
 	}
 	return
+}
+
+// QueryParamToString takes a query param key and gets the string value
+func QueryParamToString(k string, r *http.Request) (res string, err error) {
+	a, ok := r.URL.Query()[k]
+	if !ok {
+		return "", ParamRequiredErr(k)
+	}
+	res = a[0]
+	return
+}
+
+// GenerateToken creates a url-safe token of n-bytes
+func GenerateToken(n int) (string, error) {
+	b := make([]byte, n)
+	_, err := rand.Read(b)
+	if err != nil {
+		return "", err
+	}
+	return base64.URLEncoding.EncodeToString(b), nil
 }
